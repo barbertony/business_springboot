@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+
+
+    thymeleaf:
+      mode: HTML5
+
+img:
+  local:
+    path: D:\\upload

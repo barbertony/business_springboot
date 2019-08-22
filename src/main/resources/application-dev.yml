@@ -1,0 +1,42 @@
+server:
+  port: 8888
+
+jdbc:
+  driver: com.mysql.jdbc.Driver
+  username: root
+  password: "0o8fsoul"
+  call_back: http://rwtnuk.natappfree.cc/order/alipay_callback.do
+  qr_filepath: D:/upload/qr-%s.png
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/shopping?characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      username: root
+      password: "0o8fsoul"
+      max-active: 20
+      max-wait: 6000
+      min-idle: 1
+      test-on-borrow: true
+      test-on-return: true
+mybatis:
+  mapper-locations: classpath*:com/neuedu/dao/*Mapper.xml
+  config-location: classpath:MyBatisConfig.xml
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: countSql
+
+order:
+  close:
+    timeout: 2
+
+
+qiniu:
+  accessKey: ZnoeJlN8AJwqBPRmtsWxaHUayWKmGc6x8yf0RTtm
+  secretKey: 0vuzkZ5-p1nNMEBAsE9sHFj3QBNqRlX055vXmDl9
+  bucketName: tong
