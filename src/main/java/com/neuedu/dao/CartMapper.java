@@ -58,6 +58,7 @@ public interface CartMapper {
     int un_select_all(@Param("userId") Integer userId);
 
     List<Cart> findCartListByUserIdAndChecked(@Param("userId") Integer userId);
+    List<Cart> selectCartByUserIdAndChecked(@Param("userId") Integer userId);
 
     int bathDelete(List<Cart> cartList);
 }

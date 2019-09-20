@@ -5,6 +5,7 @@ import com.neuedu.common.ServerResponse;
 public interface ICartService {
     ServerResponse add(Integer userId,Integer productId, Integer count);
     ServerResponse list(Integer userId);
+    ServerResponse list_checked(Integer userId);
     ServerResponse update(Integer userId,Integer productId, Integer count);
     ServerResponse delete_product(Integer userId,String productIds);
     ServerResponse select(Integer userId,Integer productId);

@@ -19,8 +19,12 @@ public class MySpringBootConfig implements WebMvcConfigurer {
     PortalAuthorityInterceptor portalAuthorityInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
-        registry.addInterceptor(adminAuthroityInterceptor).addPathPatterns("/manage/**").excludePathPatterns("/manage/user/login.do");
+        List<String> MexcludePatterns=Lists.newArrayList();
+        MexcludePatterns.add("/manage/order/list.do");
+        MexcludePatterns.add("/manage/order/detail.do");
+        MexcludePatterns.add("/manage/user/login.do");
+        MexcludePatterns.add("/manage/category/get_category.do");
+        registry.addInterceptor(adminAuthroityInterceptor).addPathPatterns("/manage/**").excludePathPatterns(MexcludePatterns);
 
         List<String> addPatterns= Lists.newArrayList();
         addPatterns.add("/order/**");
@@ -30,11 +34,11 @@ public class MySpringBootConfig implements WebMvcConfigurer {
         List<String> excludePatterns=Lists.newArrayList();
         excludePatterns.add("/order/alipay_callback.do");
         excludePatterns.add("/user/login.do");
-        excludePatterns.add("/user/register.do?");
+        excludePatterns.add("/user/register.do");
         excludePatterns.add("/user/check_valid.do");
         excludePatterns.add("/user/forget_get_question.do");
         excludePatterns.add("/user/forget_check_answer.do");
-        excludePatterns.add("user/forget_reset_password.do");
+        excludePatterns.add("/user/forget_reset_password.do");
 
 
         registry.addInterceptor(portalAuthorityInterceptor).addPathPatterns(addPatterns).excludePathPatterns(excludePatterns);

@@ -5,7 +5,7 @@ jdbc:
   driver: com.mysql.jdbc.Driver
   username: root
   password: "0o8fsoul"
-  call_back: http://rwtnuk.natappfree.cc/order/alipay_callback.do
+  call_back: http://gw6f9z.natappfree.cc/order/alipay_callback.do
   qr_filepath: D:/upload/qr-%s.png
 
 spring:
@@ -40,3 +40,4 @@ qiniu:
   accessKey: ZnoeJlN8AJwqBPRmtsWxaHUayWKmGc6x8yf0RTtm
   secretKey: 0vuzkZ5-p1nNMEBAsE9sHFj3QBNqRlX055vXmDl9
   bucketName: tong
+

@@ -5,6 +5,7 @@ import com.neuedu.consts.Const;
 import com.neuedu.pojo.UserInfo;
 import com.neuedu.service.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/cart/")
+@CrossOrigin
 public class CartController {
     @Autowired
     ICartService cartService;
@@ -25,6 +27,17 @@ public class CartController {
         }
         return cartService.list(userInfo.getId());
     }
+    @RequestMapping(value = "list_checked.do")
+    public ServerResponse list_checked(HttpSession session)
+    {
+        UserInfo userInfo=(UserInfo) session.getAttribute(Const.CURRENT_USER);
+        if (userInfo==null)
+        {
+            return ServerResponse.createServerResponseByFail(10,"用户未登录,请登录");
+        }
+        return cartService.list_checked(userInfo.getId());
+    }
+
     @RequestMapping(value ="add.do" )
     public ServerResponse add(int productId,int count,HttpSession session)
     {

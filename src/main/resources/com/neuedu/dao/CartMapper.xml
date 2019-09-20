@@ -86,6 +86,10 @@
     <select id="findCartListByUserIdAndChecked" parameterType="int" resultMap="BaseResultMap">
     select * from neuedu_cart where user_id=#{userId} and checked=1
   </select>
+    <select id="selectCartByUserIdAndChecked" parameterType="int" resultMap="BaseResultMap">
+    select * from neuedu_cart where user_id=#{userId} and checked = 1
+  </select>
+
 
 
     <delete id="bathDelete" parameterType="list">

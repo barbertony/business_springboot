@@ -82,6 +82,7 @@ public class UserServiceImpl implements IUserService {
             return  ServerResponse.createServerResponseByFail(100,"注册信息不能为空");
 
         }
+        record.setPassword(MD5Utils.getMD5Code(record.getPassword()));
         if (record.getEmail()==null||record.getEmail().equals(""))
         {
             return  ServerResponse.createServerResponseByFail(100,"注册信息不能为空");

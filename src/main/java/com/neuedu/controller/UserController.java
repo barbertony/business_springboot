@@ -8,6 +8,7 @@ import com.neuedu.utils.MD5Utils;
 import com.neuedu.vo.UserInfoInformationVO;
 import com.neuedu.vo.UserInfoListVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/user/")
+@CrossOrigin
 public class UserController {
     @Autowired
     IUserService userService;
@@ -125,7 +127,6 @@ public class UserController {
         {
             return ServerResponse.createServerResponseByFail(1,"用户未登录");
         }
-
         UserInfo userInfo1=new UserInfo();
         userInfo1.setId(userInfo.getId());
         userInfo1.setEmail(email);

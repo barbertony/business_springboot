@@ -6,6 +6,7 @@ import com.neuedu.pojo.Category;
 import com.neuedu.pojo.UserInfo;
 import com.neuedu.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/manage/category/")
+@CrossOrigin
 public class CategoryManageController {
     @Autowired
     ICategoryService categoryService;
@@ -23,11 +25,11 @@ public class CategoryManageController {
     @RequestMapping(value = "get_category.do")
     public ServerResponse get_category(HttpServletRequest request,@RequestParam(required = false,defaultValue = "0")int categoryId)
     {
-        UserInfo userInfo=(UserInfo) request.getSession().getAttribute(Const.CURRENT_USER);
-        if (userInfo==null)
-        {
-            return ServerResponse.createServerResponseByFail(1,"用户未登录，无法获取当前用户信息");
-        }
+//        UserInfo userInfo=(UserInfo) request.getSession().getAttribute(Const.CURRENT_USER);
+//        if (userInfo==null)
+//        {
+//            return ServerResponse.createServerResponseByFail(1,"用户未登录，无法获取当前用户信息");
+//        }
         return categoryService.get_category(categoryId);
 
     }

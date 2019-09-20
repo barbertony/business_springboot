@@ -64,6 +64,16 @@ public class CartServiceImpl implements ICartService {
         }
         return ServerResponse.createServerResponseByFail(1,"还没有选中任何商品哦~");
     }
+    @Override
+    public ServerResponse list_checked(Integer userId) {
+        CartVO cartVO=getCartVOLimit_select(userId);
+        if (cartVO.getCartProductVoList().size()>0)
+        {
+            return ServerResponse.createServerResponseBySuccess(null,cartVO);
+        }
+        return ServerResponse.createServerResponseByFail(1,"还没有选中任何商品哦~");
+    }
+
 
     @Override
     public ServerResponse update(Integer userId,Integer productId, Integer count) {
@@ -181,6 +191,86 @@ public class CartServiceImpl implements ICartService {
         CartVO cartVO=new CartVO();
         //1.
         List<Cart> cartList=cartMapper.selectCartByUserId(userId);
+        //2
+        List<CartProductVO> cartProductVOList= Lists.newArrayList();
+
+        BigDecimal cartTotalPrice=new BigDecimal("0");
+
+
+        if (cartList!=null&&cartList.size()>0)
+        {
+            for (Cart c:cartList) {
+                CartProductVO cartProductVO=new CartProductVO();
+                cartProductVO.setId(c.getId());
+                cartProductVO.setQuantity(c.getQuantity());
+                cartProductVO.setUserId(c.getUserId());
+                cartProductVO.setProductChecked(c.getChecked());
+
+                Product product=productMapper.selectByPrimaryKey(c.getProductId());
+                if (product!=null)
+                {
+                    cartProductVO.setProductId(product.getId());
+                    cartProductVO.setProductMainImage(product.getMainImage());
+                    cartProductVO.setProductName(product.getName());
+                    cartProductVO.setProductPrice(product.getPrice());
+                    cartProductVO.setProductStatus(product.getStatus());
+                    cartProductVO.setProductStock(product.getStock());
+                    cartProductVO.setProductSubtitle(product.getSubtitle());
+                    int stock=product.getStock();
+                    int limitProductCount=0;
+                    if (stock>c.getQuantity())
+                    {
+                        limitProductCount=c.getQuantity();
+                        cartProductVO.setLimitQuantity("LIMIT_NUM_SUCCESS");
+
+
+                    }
+                    else
+                    {
+                        Cart cart=new Cart();
+                        cart.setQuantity(stock);
+                        cart.setId(c.getId());
+                        cart.setProductId(c.getProductId());
+                        cart.setChecked(c.getChecked());
+                        cart.setUserId(c.getUserId());
+                        cartMapper.updateByPrimaryKey(cart);
+                        cartProductVO.setLimitQuantity("LIMIT_NUM_FAIL");
+
+                    }
+                    cartProductVO.setQuantity(limitProductCount);
+                    cartProductVO.setProductTotalPrice(BigDecimalUtils.mul(product.getPrice().doubleValue(),cartProductVO.getQuantity()));
+
+
+
+                }
+                if (c.getChecked()==1){cartTotalPrice= BigDecimalUtils.add(cartTotalPrice.doubleValue(),cartProductVO.getProductTotalPrice().doubleValue());}
+
+                cartProductVOList.add(cartProductVO);
+            }
+        }
+        cartVO.setCartTotalPrice(cartTotalPrice);
+        cartVO.setCartProductVoList(cartProductVOList);
+
+        int count =cartMapper.isCheckedAll(userId);
+        if (count>0)
+        {
+            cartVO.setAllChecked(false);
+        }
+        else
+        {
+            cartVO.setAllChecked(true);
+        }
+
+
+        return cartVO;
+    }
+
+    private CartVO getCartVOLimit_select(Integer userId)
+
+    {
+        CartVO cartVO=new CartVO();
+        //1.
+        List<Cart> cartList=cartMapper.selectCartByUserIdAndChecked(userId);
         //2
         List<CartProductVO> cartProductVOList= Lists.newArrayList();
 
